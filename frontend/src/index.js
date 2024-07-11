@@ -11,11 +11,15 @@ import "./assets/styles/index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import HomeScreen from "./screens/HomeScreen";
+import ProductScreen from "./screens/ProductScreen";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
+      {/* index = true is only needed for the home screen */}
       <Route index={true} path="/" element={<HomeScreen />} />
+      {/* this path is for all items on the home page */}
+      <Route path="/product/:id" element={<ProductScreen />} />
     </Route>
   )
 );
