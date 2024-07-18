@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { FaChessKing } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -12,11 +13,12 @@ import {
 } from "react-bootstrap";
 import React from "react";
 import Rating from "../components/Rating";
-import products from "../products";
+import axios from "axios";
 
 // "useParams" this allows us to get the ID from the URL, this is a hook from router DOM. We need it to grab the info from the item that is clicked from the home page
 
 const ProductScreen = () => {
+  const [product, setProduct] = useState({});
   // get the ID from the URL
   // Here is how we can destructure anything from the Params
   // We creating Link componets that send us to a page like "product/5". The ID at the end of the URL is what we need to locate the information for the specific element. We are just grabing the ID that is sent to the URL when an certain Item is clicked and assigning that ID to the variable "productID". useParams is a hook that helps us retrieve this ID.
@@ -24,7 +26,17 @@ const ProductScreen = () => {
 
   // we are going to fetch the product based on the ID
   // we will scan thru elements of the products array and when finding an ID that matches the ID found in the current URL, then we assign that element to the variable 'product'
-  const product = products.find((p) => p._id === productId);
+  // const product = products.find((p) => p._id === productId);
+
+  // if productID changes, then we want the component to reload
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data } = await axios.get(`/api/products/${productId}`);
+      setProduct(data);
+    };
+
+    fetchProducts();
+  }, [productId]);
 
   return (
     <>
